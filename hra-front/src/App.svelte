@@ -1,6 +1,7 @@
 <script>
     import Card from "./Card.svelte";
     import Player from "./Player.svelte";
+	import Chat from "./Chat.svelte";
 	export let name;
 </script>
 
@@ -8,6 +9,7 @@
 	<h1>Hello {name}!</h1>
 	<Card/>
 	<Player/>
+    <Chat/>
 </main>
 
 <style>
