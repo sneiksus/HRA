@@ -1,3 +1,5 @@
+
+
 <div>
     <img src="https://www.pngkit.com/png/full/349-3495495_diamond-kys-white-diamond-icon-png.png" alt="logo"/>
     <h1>Атака</h1>
@@ -11,6 +13,12 @@
         width: 10em;
         border: 7px solid #ed4245;
         border-radius: 15px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    div:hover{
+        transform: translateY(-1em);
+        cursor: pointer;
     }
 
     img {
