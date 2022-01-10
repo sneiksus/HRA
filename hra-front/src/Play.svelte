@@ -1,0 +1,72 @@
+<script>
+    import Card from "./Card.svelte";
+    import Player from "./Player.svelte";
+    import Chat from "./Chat.svelte";
+    import Battlefield from "./Battlefield.svelte";
+    import Timer from "./Timer.svelte";
+    import Info from "./Info.svelte"
+</script>
+
+<main>
+    <header>
+        <Player nomarg="1" />
+        <Player />
+        <Player />
+        <Player />
+    </header>
+    <aside>
+        <Chat />
+    </aside>
+    <section>
+        <Battlefield />
+    </section>
+    <div>
+        <Timer/>
+        <Info/>
+    </div>
+    <footer>
+        <Card nomarg="1" />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+    </footer>
+</main>
+
+<style>
+    main {
+        height: 100%;
+        width: 100%;
+        margin: 0%;
+        background-color: #2c2f33;
+        position: fixed;
+    }
+    header {
+        text-align: center;
+        width: max-content;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+    footer {
+        width: max-content;
+        left: 50%;
+        transform: translateX(-50%);
+        position: fixed;
+        bottom: 1em;
+    }
+    aside {
+        display: inline-block;
+    }
+    section {
+        display: inline-block;
+        margin-top: 4em;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+    div{
+        float: right;
+        margin-right: 1em;
+        margin-top: -10%;
+    }
+</style>

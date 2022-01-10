@@ -2,6 +2,8 @@
     import Card from "./Card.svelte";
     import Player from "./Player.svelte";
 	import Chat from "./Chat.svelte";
+	import Timer from "./Timer.svelte";
+	import Info from "./Info.svelte";
 	export let name;
 </script>
 
@@ -10,6 +12,8 @@
 	<Card/>
 	<Player/>
     <Chat/>
+	<Timer/>
+	
 </main>
 
 <style>
