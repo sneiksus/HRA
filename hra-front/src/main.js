@@ -1,7 +1,8 @@
 import App from './App.svelte';
-import Play from './Play.svelte'
+import Play from './Play.svelte';
+import Index from './Index.svelte';
 
-const app = new Play({
+const app = new Index({
 	target: document.body
 });
 

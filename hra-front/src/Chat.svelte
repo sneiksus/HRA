@@ -53,7 +53,7 @@
         scrollbar-width: none; 
         overflow-y: scroll;
         width: 17em;
-        height: 20em;
+        height: 22em;
     }
     .hide{
         visibility: hidden;
