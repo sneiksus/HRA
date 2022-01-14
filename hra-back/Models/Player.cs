@@ -7,10 +7,10 @@ namespace hra_back.Models
 {
     public class Player
     {
-        int Id { get; set; }
-        string Nick { get; set; }
-        int XP { get; set; }
-        List<Card> Cards { get; set; }
+        public string Id { get; set; }
+        public string Nick { get; set; }
+        public int XP { get; set; }
+        public List<Card> Cards { get; set; }
 
     }
 }

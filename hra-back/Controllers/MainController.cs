@@ -1,6 +1,8 @@
-﻿using hra_back.Models;
+﻿using hra_back.Hubs;
+using hra_back.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,11 @@ namespace hra_back.Controllers
     public class MainController : ControllerBase
     {
         List<Room> rooms;
-
-        public MainController()
+        IHubContext<GameHub> hubContext;
+        public MainController(IHubContext<GameHub> hubContext)
         {
             rooms = new List<Room>();
+            this.hubContext = hubContext;
             //roomRemover(TimeSpan.FromSeconds(7));
             /*var timer1 = new Timer(_ => {
                 if (rooms.Count > 0)
@@ -32,10 +35,15 @@ namespace hra_back.Controllers
             return Ok();
         }
         [HttpPost("con")]
-        public IActionResult Connect([FromForm] string code)
+        public IActionResult Connect([FromForm] string code, string nickname, string id)
         {
             if (rooms.Find(x => x.Id == code.ToUpper()) != null)
+            {
+                if(rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
+                  return BadRequest();
+                rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = id, Nick = nickname, Cards = new List<Card>(), XP = 500 });
                 return Ok();
+            }
             else
                 return BadRequest();
         }
