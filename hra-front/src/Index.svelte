@@ -1,4 +1,29 @@
 <script>
+    import { onMount } from "svelte";
+    import * as signalR from "@microsoft/signalr";
+    let hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:44300/game")
+            .build();
+    console.log(hubConnection)
+    hubConnection.on("FilledRoom", function (data) {
+         console.log("fiiled room");
+    });
+    hubConnection.on("GoInRoom", function (data) {
+         console.log("GoInRoom");
+    });
+    hubConnection.on("NotFoundRoom", function (data) {
+         console.log("NotFoundRoom");
+    });
+
+    function connect() {
+        console.log('sended')
+        hubConnection.invoke("roomConnection", "message");
+        // var xmlHttp = new XMLHttpRequest();
+        // xmlHttp.open("GET", "https://localhost:44300/Main/bon", false); // false for synchronous request
+        // xmlHttp.send(null);
+        // console.log(xmlHttp.responseText);
+    }
+    hubConnection.start();
 </script>
 
 <main>
@@ -7,23 +32,27 @@
         <div class="connect">
             <p>Start game</p>
             <input type="text" id="input-code" />
-            <input type="button" id="input-connect" value="Connect" />
+            <input type="button" id="input-connect" value="Connect" on:click={connect}/>
         </div>
-        <hr>
+        <hr />
         <div class="connect">
             <p>or</p>
-            <input type="button" id="input-create" value="Create room" />
+            <input
+                type="button"
+                id="input-create"
+                value="Create room"
+            />
             <input type="button" id="input-instruction" value="Instruction" />
-            <select id="input-select" >  
+            <select id="input-select">
                 <option value="value1">en</option>
                 <option value="value2" selected>sk</option>
                 <option value="value3">ru</option>
-              </select>
+            </select>
         </div>
-       <div id="other">
-        <a href="#">Support author</a>
-        <i>Copyright 2022</i>
-       </div>
+        <div id="other">
+            <a href="#">Support author</a>
+            <i>Copyright 2022</i>
+        </div>
     </div>
 </main>
 
@@ -45,13 +74,13 @@
         text-align: center;
         margin-top: 5%;
     }
-    #other{
+    #other {
         margin-top: 35%;
     }
-    i{
+    i {
         display: block;
     }
-    hr{
+    hr {
         border: 1px solid #2c2f33;
     }
     #box {
@@ -101,7 +130,6 @@
     }
     #input-connect:active {
         background: rgb(124, 2, 4);
-       
     }
     #input-create {
         width: 25%;
@@ -110,7 +138,7 @@
         border-radius: 10px;
         font-family: "Roboto";
         font-style: normal;
-        font-weight: normal ;
+        font-weight: normal;
         font-size: 1em;
         color: white;
         border: none;
@@ -121,7 +149,6 @@
     }
     #input-create:active {
         background: #033470;
-       
     }
     #input-instruction {
         width: 25%;
@@ -142,7 +169,6 @@
     }
     #input-instruction:active {
         background: rgb(40, 41, 43);
-        
     }
     p {
         margin-top: -10%;
@@ -160,7 +186,7 @@
         border-radius: 10px;
         font-family: "Roboto";
         font-style: normal;
-        font-weight:normal;
+        font-weight: normal;
         font-size: 1em;
         margin-left: 5%;
         color: white;
@@ -176,9 +202,8 @@
     #input-select:focus {
         outline: none;
     }
-    option{
-       border: none;
-       outline: none;
+    option {
+        border: none;
+        outline: none;
     }
-     
 </style>

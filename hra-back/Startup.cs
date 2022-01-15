@@ -17,6 +17,24 @@ namespace hra_back
         {
             services.AddControllers();
             services.AddSignalR();
+            services
+            .AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    );
+
+                options.AddPolicy("signalr",
+                    builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+
+                    .AllowCredentials()
+                    .SetIsOriginAllowed(hostName => true));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,12 +44,12 @@ namespace hra_back
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseCors("signalr");
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
                 endpoints.MapHub<GameHub>("/game");
             });
         }

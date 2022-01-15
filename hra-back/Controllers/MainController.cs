@@ -15,12 +15,8 @@ namespace hra_back.Controllers
     [ApiController]
     public class MainController : ControllerBase
     {
-        List<Room> rooms;
-        IHubContext<GameHub> hubContext;
-        public MainController(IHubContext<GameHub> hubContext)
+        public MainController()
         {
-            rooms = new List<Room>();
-            this.hubContext = hubContext;
             //roomRemover(TimeSpan.FromSeconds(7));
             /*var timer1 = new Timer(_ => {
                 if (rooms.Count > 0)
@@ -31,17 +27,17 @@ namespace hra_back.Controllers
 
         [HttpGet("bon")]
         public IActionResult createRoom() {
-            rooms.Add(new Room { Id = generateRoomId(), players = new LinkedList<Player>() });
+            Common.rooms.Add(new Room { Id = generateRoomId(), players = new LinkedList<Player>() });
             return Ok();
         }
         [HttpPost("con")]
         public IActionResult Connect([FromForm] string code, string nickname, string id)
         {
-            if (rooms.Find(x => x.Id == code.ToUpper()) != null)
+            if (Common.rooms.Find(x => x.Id == code.ToUpper()) != null)
             {
-                if(rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
+                if(Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
                   return BadRequest();
-                rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = id, Nick = nickname, Cards = new List<Card>(), XP = 500 });
+                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = id, Nick = nickname, Cards = new List<Card>(), XP = 500 });
                 return Ok();
             }
             else
@@ -56,7 +52,7 @@ namespace hra_back.Controllers
         {
             System.Diagnostics.Debug.WriteLine("Removed\n");
             await Task.Delay(timeout).ConfigureAwait(false);
-            rooms.RemoveAll(x => x.players.Count <= 0);
+            Common.rooms.RemoveAll(x => x.players.Count <= 0);
             roomRemover(TimeSpan.FromSeconds(7));
         }
     }
