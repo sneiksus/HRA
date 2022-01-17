@@ -16,6 +16,7 @@ namespace hra_back.Hubs
 
         public async Task roomConnection(string code)
         {
+            System.Diagnostics.Debug.WriteLine(Context.ConnectionId+" lobby");
             if (Common.rooms.Find(x => x.Id == code.ToUpper()) != null)
             {
                 if (Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
@@ -23,10 +24,17 @@ namespace hra_back.Hubs
                 Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = Context.ConnectionId, Nick = "Player", Cards = new List<Card>(), XP = 500 });
                 await Groups.AddToGroupAsync(Context.ConnectionId, code);
                 await Clients.Caller.SendAsync("GoInRoom");
+                await sendPlayersInRoom(Context.ConnectionId, Common.rooms.Find(x => x.Id == code.ToUpper()));
             }
             else
                 await Clients.Caller.SendAsync("NotFoundRoom");
 
+        }
+
+        public async Task sendPlayersInRoom(string connectionId, Room r)
+        {
+            System.Diagnostics.Debug.WriteLine(Context.ConnectionId);
+            await Clients.Client(connectionId).SendAsync("refreshRoomData", r.players.ToList());
         }
     }
 }

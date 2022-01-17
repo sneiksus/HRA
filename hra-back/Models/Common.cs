@@ -7,6 +7,6 @@ namespace hra_back.Models
 {
     public class Common
     {
-        public static List<Room> rooms = new List<Room>();
+        public static List<Room> rooms = new List<Room>() { new Room { Id="GT3",players=new LinkedList<Player>()} };
     }
 }

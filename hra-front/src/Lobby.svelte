@@ -1,5 +1,15 @@
 <script>
     import ConnectedUser from "./ConnectedUser.svelte";
+    import * as signalR from "@microsoft/signalr";
+    let hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:44300/game")
+            .build();
+			console.log(hubConnection);
+    hubConnection.on("refreshRoomData", function (data) {
+         console.log("refreshRoomData");
+         console.log(data[0]);
+         
+    });
 </script>
 
 <main>

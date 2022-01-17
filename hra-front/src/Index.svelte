@@ -1,27 +1,38 @@
 <script>
-    import { onMount } from "svelte";
+	import { navigateTo } from 'svelte-router-spa';
     import * as signalR from "@microsoft/signalr";
-    let hubConnection = new signalR.HubConnectionBuilder()
+     let codeConnection;
+     let isCodeWrong = false;
+     let isRoomFull = false;
+     let hubConnection = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:44300/game")
             .build();
-    console.log(hubConnection)
+			console.log(hubConnection);
+    
     hubConnection.on("FilledRoom", function (data) {
          console.log("fiiled room");
+         isRoomFull = true;
+         setTimeout(() => {
+            isRoomFull = false;
+         }, 2000);
     });
     hubConnection.on("GoInRoom", function (data) {
          console.log("GoInRoom");
+         navigateTo('lobby');
     });
     hubConnection.on("NotFoundRoom", function (data) {
          console.log("NotFoundRoom");
+         isCodeWrong = true;
+         setTimeout(() => {
+            isCodeWrong = false;
+         }, 2000);
+         
     });
+  
 
     function connect() {
         console.log('sended')
-        hubConnection.invoke("roomConnection", "message");
-        // var xmlHttp = new XMLHttpRequest();
-        // xmlHttp.open("GET", "https://localhost:44300/Main/bon", false); // false for synchronous request
-        // xmlHttp.send(null);
-        // console.log(xmlHttp.responseText);
+        hubConnection.invoke("roomConnection", codeConnection);
     }
     hubConnection.start();
 </script>
@@ -31,7 +42,13 @@
     <div id="box">
         <div class="connect">
             <p>Start game</p>
-            <input type="text" id="input-code" />
+            {#if isCodeWrong}
+            <i id="wrong">Wrong code!</i>
+            {/if}
+            {#if isRoomFull}
+            <i id="wrong">Room is full!</i>
+            {/if}
+            <input type="text" id="input-code" bind:value={codeConnection}/>
             <input type="button" id="input-connect" value="Connect" on:click={connect}/>
         </div>
         <hr />
@@ -63,6 +80,14 @@
         margin: 0%;
         background-color: #2c2f33;
         position: fixed;
+    }
+    #wrong{
+        color: red;
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 300;
+        font-size: 1em;
+        line-height: 48px;
     }
     h1 {
         color: white;
