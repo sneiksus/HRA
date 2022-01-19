@@ -1,33 +1,49 @@
 <script>
     import ConnectedUser from "./ConnectedUser.svelte";
+    import { onMount } from 'svelte';
     import * as signalR from "@microsoft/signalr";
     let hubConnection = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:44300/game")
             .build();
-			console.log(hubConnection);
-    hubConnection.on("refreshRoomData", function (data) {
+			console.log("lobby");
+     hubConnection.start().then(gpir);
+    let playersInRoom=[];
+    hubConnection.on("roomPlayers", function (data) {
          console.log("refreshRoomData");
+         playersInRoom = data;
          console.log(data[0]);
          
     });
+
+    let nick ='';
+
+
+    function gpir(){
+        console.log('getPlayersInRoommount');
+		hubConnection.invoke('getPlayersInRoom', 'gt3');
+    }
+    function changeNick(){
+        console.log('changenick');
+		hubConnection.invoke('changeNick', 'gt3', nick);
+    }
 </script>
 
 <main>
     <div id="lobby">
         <div id="col1">
-        <ConnectedUser/>
-        <ConnectedUser/>
-        <ConnectedUser/>
-        <ConnectedUser/>
+            {#each playersInRoom as item }
+            <ConnectedUser nick={item.nick}/>
+            {/each}
         </div>
         <div id="col2">
             <h3>ERG324R</h3>
             <p>LOBBY CODE</p>
-            <input type="text" placeholder="Enter nick" id="input-code" />
+            <input type="text" placeholder="Enter nick" bind:value={nick} id="input-code" />
             <input
                 type="button"
                 id="input-create"
                 value="Ready"
+               on:click={changeNick}
             />
         </div>
     </div>

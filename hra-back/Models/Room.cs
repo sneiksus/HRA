@@ -9,5 +9,7 @@ namespace hra_back.Models
     {
         public string Id { get; set; }
         public LinkedList<Player> players { get; set; }
+
+
     }
 }

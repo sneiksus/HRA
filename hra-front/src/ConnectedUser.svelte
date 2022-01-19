@@ -1,8 +1,12 @@
+<script>
+    export let nick;
+</script>
+
 <div id="root">
     <div id="box">
         <img src="./static/ava.png" alt="ava" />
     </div>  
-    <h3>Player</h3>
+    <h3>{nick}</h3>
     <p>ready</p>
 </div>
 
