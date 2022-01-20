@@ -20,7 +20,7 @@ namespace hra_back.Hubs
             System.Diagnostics.Debug.WriteLine(Context.ConnectionId + " disconnect");
         }
 
-        public async Task roomConnection(string code)
+        public async Task roomConnection(string code="0")
         {
             System.Diagnostics.Debug.WriteLine(Context.ConnectionId+" lobby");
             if (Common.rooms.Find(x => x.Id == code.ToUpper()) != null)
