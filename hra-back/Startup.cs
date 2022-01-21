@@ -49,7 +49,7 @@ namespace hra_back
             app.UseCors("signalr");
             app.UseEndpoints(endpoints =>
             {
-                //endpoints.MapControllers();
+                endpoints.MapControllers();
                 endpoints.MapHub<GameHub>("/game");
             });
         }

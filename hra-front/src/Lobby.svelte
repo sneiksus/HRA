@@ -1,6 +1,7 @@
 <script>
     import ConnectedUser from "./ConnectedUser.svelte";
     import { onMount } from 'svelte';
+    import {roomCode} from './signalr';
     import * as signalR from "@microsoft/signalr";
     let hubConnection = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:44300/game")
@@ -14,17 +15,17 @@
          console.log(data[0]);
          
     });
-
+    console.log('constructor '+$roomCode);
     let nick ='';
 
 
     function gpir(){
-        console.log('getPlayersInRoommount');
-		hubConnection.invoke('getPlayersInRoom', 'gt3');
+        console.log('getPlayersInRoommount '+$roomCode);
+		hubConnection.invoke('getPlayersInRoom', $roomCode);
     }
     function changeNick(){
-        console.log('changenick');
-		hubConnection.invoke('changeNick', 'gt3', nick);
+        console.log('changenick '+$roomCode);
+		hubConnection.invoke('changeNick',  $roomCode, nick);
     }
 </script>
 

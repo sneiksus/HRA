@@ -1,37 +1,49 @@
 <script>
-	import { navigateTo } from 'svelte-router-spa';
+    import { navigateTo } from "svelte-router-spa";
     import * as signalR from "@microsoft/signalr";
-     let codeConnection;
-     let isCodeWrong = false;
-     let isRoomFull = false;
-     let hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:44300/game")
-            .build();
-			console.log(hubConnection);
-    
+    import {roomCode} from './signalr';
+    let codeConnection;
+    let isCodeWrong = false;
+    let isRoomFull = false;
+    let hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:44300/game")
+        .build();
+    console.log(hubConnection);
+   // localStorage.clear();
     hubConnection.on("FilledRoom", function (data) {
-         console.log("fiiled room");
-         isRoomFull = true;
-         setTimeout(() => {
+        console.log("fiiled room");
+        isRoomFull = true;
+        setTimeout(() => {
             isRoomFull = false;
-         }, 2000);
+        }, 2000);
     });
     hubConnection.on("GoInRoom", function (data) {
-         console.log("GoInRoom");
-         navigateTo('lobby');
+        console.log("GoInRoom");
+        roomCode.set(codeConnection);
+        navigateTo("lobby");
+        console.log('goinroom '+codeConnection);
     });
     hubConnection.on("NotFoundRoom", function (data) {
-         console.log("NotFoundRoom");
-         isCodeWrong = true;
-         setTimeout(() => {
+        console.log("NotFoundRoom");
+        isCodeWrong = true;
+        setTimeout(() => {
             isCodeWrong = false;
-         }, 2000);
-         
+        }, 2000);
     });
-  
+
+    function createRoom() {
+        var xmlHttp = new XMLHttpRequest()
+        xmlHttp.open("GET", "https://localhost:44300/Main/bon", false); // false for synchronous request
+        xmlHttp.send(null);
+        console.log(xmlHttp.responseText + 'roomrespone');
+        roomCode.set(xmlHttp.responseText);
+        console.log('setted '+$roomCode);
+        codeConnection = $roomCode;
+        hubConnection.invoke("roomConnection", xmlHttp.responseText);
+    }
 
     function connect() {
-        console.log('sended')
+        console.log("sended");
         hubConnection.invoke("roomConnection", codeConnection);
     }
     hubConnection.start();
@@ -43,22 +55,23 @@
         <div class="connect">
             <p>Start game</p>
             {#if isCodeWrong}
-            <i id="wrong">Wrong code!</i>
+                <i id="wrong">Wrong code!</i>
             {/if}
             {#if isRoomFull}
-            <i id="wrong">Room is full!</i>
+                <i id="wrong">Room is full!</i>
             {/if}
-            <input type="text" id="input-code" bind:value={codeConnection}/>
-            <input type="button" id="input-connect" value="Connect" on:click={connect}/>
+            <input type="text" id="input-code" bind:value={codeConnection} />
+            <input
+                type="button"
+                id="input-connect"
+                value="Connect"
+                on:click={connect}
+            />
         </div>
         <hr />
         <div class="connect">
             <p>or</p>
-            <input
-                type="button"
-                id="input-create"
-                value="Create room"
-            />
+            <input type="button" id="input-create" value="Create room" on:click={createRoom}/>
             <input type="button" id="input-instruction" value="Instruction" />
             <select id="input-select">
                 <option value="value1">en</option>
@@ -81,7 +94,7 @@
         background-color: #2c2f33;
         position: fixed;
     }
-    #wrong{
+    #wrong {
         color: red;
         font-family: "Roboto";
         font-style: normal;

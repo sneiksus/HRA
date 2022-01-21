@@ -26,9 +26,10 @@ namespace hra_back.Controllers
         }
 
         [HttpGet("bon")]
-        public IActionResult createRoom() {
-            Common.rooms.Add(new Room { Id = generateRoomId(), players = new LinkedList<Player>() });
-            return Ok();
+        public string createRoom() {
+            string id = generateRoomId();
+            Common.rooms.Add(new Room { Id = id, players = new LinkedList<Player>() });
+            return id;
         }
         [HttpPost("con")]
         public IActionResult Connect([FromForm] string code, string nickname, string id)
