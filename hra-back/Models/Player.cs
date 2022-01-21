@@ -10,6 +10,8 @@ namespace hra_back.Models
         public string Id { get; set; }
         public string Nick { get; set; }
         public int XP { get; set; }
+
+        public bool isReady { get; set; }
         public List<Card> Cards { get; set; }
 
     }

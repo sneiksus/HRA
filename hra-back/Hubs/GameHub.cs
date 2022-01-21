@@ -71,7 +71,10 @@ namespace hra_back.Hubs
                 System.Diagnostics.Debug.WriteLine(it.Value .Id+ " "+ it.Value.Nick);
                 LinkedListNode<Player> next = it.Next;
                 if (it.Value.Id == Context.ConnectionId)
+                {
                     it.Value.Nick = nick;
+                    it.Value.isReady = true;
+                }
                 it = next;
             }
             await Clients.All.SendAsync("roomPlayers", res.players.ToArray());

@@ -1,5 +1,6 @@
 <script>
     export let nick;
+    export let isReady=false;
 </script>
 
 <div id="root">
@@ -7,7 +8,9 @@
         <img src="./static/ava.png" alt="ava" />
     </div>  
     <h3>{nick}</h3>
+    {#if isReady == true}
     <p>ready</p>
+    {/if}
 </div>
 
 <style>

@@ -33,7 +33,7 @@
     <div id="lobby">
         <div id="col1">
             {#each playersInRoom as item }
-            <ConnectedUser nick={item.nick}/>
+            <ConnectedUser nick={item.nick} isReady={item.isReady}/>
             {/each}
         </div>
         <div id="col2">
