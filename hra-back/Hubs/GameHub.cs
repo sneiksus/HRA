@@ -18,6 +18,17 @@ namespace hra_back.Hubs
         {
            // await Clients.Caller.SendAsync("getID", Context.ConnectionId);
             System.Diagnostics.Debug.WriteLine(Context.ConnectionId + " disconnect");
+            for(int i=0;i<Common.rooms.Count;i++)
+            {
+                
+                if (Common.rooms[i].RemovePlayer(Context.ConnectionId))
+                {
+                    
+                    await getPlayersInRoom(Common.rooms[i].Id);
+                    return;
+                }
+            }
+              
         }
 
         public async Task roomConnection(string code="0")
@@ -27,7 +38,7 @@ namespace hra_back.Hubs
             {
                 if (Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
                     await Clients.Caller.SendAsync("FilledRoom");
-                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = Context.ConnectionId, Nick = "Player3225", Cards = new List<Card>(), XP = 500 });
+                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = Context.ConnectionId, Nick = "Player"+ Common.rooms.First(x => x.Id == code.ToUpper()).players.Count.ToString(), Cards = new List<Card>(), XP = 500 });
                 await Groups.AddToGroupAsync(Context.ConnectionId, code);
                 await Clients.Caller.SendAsync("GoInRoom");
                 await sendPlayersInRoom(Context.ConnectionId, Common.rooms.Find(x => x.Id == code.ToUpper()));

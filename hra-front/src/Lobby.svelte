@@ -37,7 +37,7 @@
             {/each}
         </div>
         <div id="col2">
-            <h3>ERG324R</h3>
+            <h3>{$roomCode}</h3>
             <p>LOBBY CODE</p>
             <input type="text" placeholder="Enter nick" bind:value={nick} id="input-code" />
             <input
