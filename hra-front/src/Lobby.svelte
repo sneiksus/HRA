@@ -1,15 +1,15 @@
 <script>
     import ConnectedUser from "./ConnectedUser.svelte";
     import { onMount } from 'svelte';
-    import {roomCode} from './signalr';
+    import {roomCode, HUB} from './signalr';
     import * as signalR from "@microsoft/signalr";
-    let hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:44300/game")
-            .build();
-			console.log("lobby");
-     hubConnection.start().then(gpir);
+    // let hubConnection = new signalR.HubConnectionBuilder()
+    //         .withUrl("https://localhost:44300/game")
+    //         .build();
+	// 		console.log("lobby");
+    onMount(() => gpir())
     let playersInRoom=[];
-    hubConnection.on("roomPlayers", function (data) {
+    $HUB.on("roomPlayers", function (data) {
          console.log("refreshRoomData");
          playersInRoom = data;
          console.log(data[0]);
@@ -21,11 +21,11 @@
 
     function gpir(){
         console.log('getPlayersInRoommount '+$roomCode);
-		hubConnection.invoke('getPlayersInRoom', $roomCode);
+		$HUB.invoke('getPlayersInRoom', $roomCode);
     }
     function changeNick(){
         console.log('changenick '+$roomCode);
-		hubConnection.invoke('changeNick',  $roomCode, nick);
+		$HUB.invoke('changeNick',  $roomCode, nick);
     }
 </script>
 

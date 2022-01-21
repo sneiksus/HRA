@@ -23,7 +23,8 @@
 //                 }, 2000);
                 
 //            });
-
+import * as signalR from "@microsoft/signalr"
 import { writable } from "svelte/store";
 
 export const roomCode = writable('nula');
+export const HUB = writable('nula');

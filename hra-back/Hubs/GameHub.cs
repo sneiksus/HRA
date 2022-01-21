@@ -64,12 +64,13 @@ namespace hra_back.Hubs
         
         public async Task changeNick(string roomId, string nick)
         {
-            System.Diagnostics.Debug.WriteLine(Common.rooms.Count + "changeNick");
+            System.Diagnostics.Debug.WriteLine(Context.ConnectionId + "changeNick");
             var res = Common.rooms.Find(x => x.Id == roomId.ToUpper());
             for (LinkedListNode<Player> it = res.players.First; it != null;)
             {
+                System.Diagnostics.Debug.WriteLine(it.Value .Id+ " "+ it.Value.Nick);
                 LinkedListNode<Player> next = it.Next;
-                if (it.Value.Nick != Context.ConnectionId)
+                if (it.Value.Id == Context.ConnectionId)
                     it.Value.Nick = nick;
                 it = next;
             }

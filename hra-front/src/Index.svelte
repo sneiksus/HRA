@@ -1,29 +1,30 @@
 <script>
     import { navigateTo } from "svelte-router-spa";
     import * as signalR from "@microsoft/signalr";
-    import {roomCode} from './signalr';
+    import {roomCode, HUB} from './signalr';
     let codeConnection;
     let isCodeWrong = false;
     let isRoomFull = false;
     let hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("https://localhost:44300/game")
         .build();
-    console.log(hubConnection);
+    HUB.set(hubConnection);
+    console.log($HUB);
    // localStorage.clear();
-    hubConnection.on("FilledRoom", function (data) {
+   $HUB.on("FilledRoom", function (data) {
         console.log("fiiled room");
         isRoomFull = true;
         setTimeout(() => {
             isRoomFull = false;
         }, 2000);
     });
-    hubConnection.on("GoInRoom", function (data) {
+    $HUB.on("GoInRoom", function (data) {
         console.log("GoInRoom");
         roomCode.set(codeConnection);
         navigateTo("lobby");
         console.log('goinroom '+codeConnection);
     });
-    hubConnection.on("NotFoundRoom", function (data) {
+    $HUB.on("NotFoundRoom", function (data) {
         console.log("NotFoundRoom");
         isCodeWrong = true;
         setTimeout(() => {
@@ -39,14 +40,14 @@
         roomCode.set(xmlHttp.responseText);
         console.log('setted '+$roomCode);
         codeConnection = $roomCode;
-        hubConnection.invoke("roomConnection", xmlHttp.responseText);
+        $HUB.invoke("roomConnection", xmlHttp.responseText);
     }
 
     function connect() {
         console.log("sended");
-        hubConnection.invoke("roomConnection", codeConnection);
+        $HUB.invoke("roomConnection", codeConnection);
     }
-    hubConnection.start();
+    $HUB.start();
 </script>
 
 <main>
