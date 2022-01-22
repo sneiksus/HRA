@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 namespace hra_back
 {
 
-    enum CardType { Attack, Resources, Thief, Sabotage};
+    public enum CardType { Attack, Resources, Thief, Sabotage};
     public class Card
     {
-        CardType Type { get; set; }
-        int Points { get; set; }
+        public CardType Type { get; set; }
+        public int Points { get; set; }
 
     }
 }

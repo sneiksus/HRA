@@ -5,6 +5,23 @@
     import Battlefield from "./Battlefield.svelte";
     import Timer from "./Timer.svelte";
     import Info from "./Info.svelte"
+    import { onMount } from 'svelte';
+    import {roomCode, HUB} from './signalr';
+    import { navigateTo } from "svelte-router-spa";
+    import * as signalR from "@microsoft/signalr";
+
+    let cards=[];
+       onMount(() => {
+           $HUB.invoke('PlayInit', $roomCode);
+       })
+
+       $HUB.on("clientInit", function (data) {
+         console.log("clieninit");
+         cards=data;
+         console.log(data);
+         
+    });
+    
 </script>
 
 <main>
@@ -25,11 +42,13 @@
         <Info/>
     </div>
     <footer>
-        <Card nomarg="1" />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {#each cards as card, i}
+           {#if i == 0}
+           <Card nomarg="1" xp={card.points} type={card.type} />
+           {:else}
+           <Card xp={card.points} type={card.type} />
+           {/if}
+        {/each}
     </footer>
 </main>
 

@@ -1,11 +1,32 @@
 <script>
     export let nomarg=0;
+    export let xp=-1;
+    export let type="n";
+
+    let a, b;
+    !nomarg ? a = 'yemarg ' : a = 'nomarg ';
+    if(type == 0)
+    b = " attack";
+    else if(type == 1)
+    b = " resources";
+    else if(type == 2)
+    b = " thief";
+    else
+    b = " sabotage";
 </script>
 
-<div class={!nomarg ? 'yemarg' : 'nomarg'}>
-    <img src="https://www.pngkit.com/png/full/349-3495495_diamond-kys-white-diamond-icon-png.png" alt="logo"/>
-    <h1>Атака</h1>
-    <p>500</p>
+<div id="card" class="{[a,b]}">
+    {#if type == 0}
+    <img src="./static/Attack.png" alt="logo"/>
+    {:else if type == 1}
+    <img src="./static/Resources.png" alt="logo"/>
+    {:else if type == 2}
+    <img src="./static/Thief.png" alt="logo"/>
+    {:else if type == 3}
+    <img src="./static/Sabotage.png" alt="logo"/>
+    {/if}
+    <h1>{type}</h1>
+    <p>{xp}</p>
 </div>
 
 <style>
@@ -13,12 +34,27 @@
         background-color: #40454b;
         height: 11em;
         width: 7em;
-        border: 7px solid #ed4245;
+        border: 7px solid white;
         border-radius: 15px;
         transition: transform 0.2s ease-in-out;
         display: inline-block;
         text-align: center;
     }
+
+    .attack{
+        border: 7px solid red;
+    }
+    .resources{
+        border: 7px solid yellow;
+    }
+    .thief{
+        border: 7px solid purple;
+    }
+
+    .sabotage{
+        border: 7px solid blue;
+    }
+
 
     div:hover{
         transform: translateY(-1em);

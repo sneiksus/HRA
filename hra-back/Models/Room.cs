@@ -23,6 +23,18 @@ namespace hra_back.Models
             }
             return false;
         }
+        public bool AddCards(string id, List<Card> c)
+        {
+            for (LinkedListNode<Player> node = players.First; node != null; node = node.Next)
+            {
+                if (node.Value.Id == id)
+                {
+                    node.Value.Cards = c;
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }

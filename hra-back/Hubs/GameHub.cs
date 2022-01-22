@@ -79,5 +79,11 @@ namespace hra_back.Hubs
             }
             await Clients.All.SendAsync("roomPlayers", res.players.ToArray());
         }
+
+        public async Task PlayInit(string roomCode)
+        {
+            if (Common.rooms.Find(x => x.Id == roomCode.ToUpper()).AddCards(Context.ConnectionId, Common.cards))
+                await Clients.Caller.SendAsync("clientInit", Common.cards.ToArray());
+        }
     }
 }

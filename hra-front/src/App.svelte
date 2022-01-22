@@ -7,6 +7,7 @@
 	import { Router } from 'svelte-router-spa'
     import Lobby from "./Lobby.svelte";
 	import Index from "./Index.svelte";
+  import Play from "./Play.svelte";
 	const routes = [
   {
     name: '/',
@@ -15,6 +16,10 @@
   {
     name: '/lobby',
     component: Lobby,
+  },
+  {
+    name: '/play',
+    component: Play,
   }
   ];
 </script>

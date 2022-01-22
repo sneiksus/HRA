@@ -2,6 +2,7 @@
     import ConnectedUser from "./ConnectedUser.svelte";
     import { onMount } from 'svelte';
     import {roomCode, HUB} from './signalr';
+    import { navigateTo } from "svelte-router-spa";
     import * as signalR from "@microsoft/signalr";
     // let hubConnection = new signalR.HubConnectionBuilder()
     //         .withUrl("https://localhost:44300/game")
@@ -13,6 +14,8 @@
          console.log("refreshRoomData");
          playersInRoom = data;
          console.log(data[0]);
+         if(playersInRoom.length>=2)
+           navigateTo('play');
          
     });
     console.log('constructor '+$roomCode);
