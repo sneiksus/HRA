@@ -80,10 +80,19 @@ namespace hra_back.Hubs
             await Clients.All.SendAsync("roomPlayers", res.players.ToArray());
         }
 
+        //-------------------------------GAME_CONTROL---------------------------
+
         public async Task PlayInit(string roomCode)
         {
-            if (Common.rooms.Find(x => x.Id == roomCode.ToUpper()).AddCards(Context.ConnectionId, Common.cards))
-                await Clients.Caller.SendAsync("clientInit", Common.cards.ToArray());
+            Common.rooms.Find(x => x.Id == roomCode.ToUpper()).AddCards(Context.ConnectionId, Common.cards);
+            await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
+            Task.Run(() => Play(roomCode));
+        }
+
+
+        private void Play(string roomCode)
+        {
+            
         }
     }
 }

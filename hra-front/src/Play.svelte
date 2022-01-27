@@ -10,15 +10,17 @@
     import { navigateTo } from "svelte-router-spa";
     import * as signalR from "@microsoft/signalr";
 
+    let players=[];
     let cards=[];
        onMount(() => {
            $HUB.invoke('PlayInit', $roomCode);
        })
 
-       $HUB.on("clientInit", function (data) {
+       $HUB.on("clientInit", function (d) {
          console.log("clieninit");
-         cards=data;
-         console.log(data);
+         players=d.players;
+         cards=d.players[0].cards;
+         console.log(d);
          
     });
     
@@ -26,10 +28,13 @@
 
 <main>
     <header>
-        <Player nomarg="1" />
-        <Player />
-        <Player />
-        <Player />
+        {#each players as player, i}
+        {#if i == 0}
+        <Player nomarg="1" xp={player.xp} nick={player.nick}/>
+        {:else}
+        <Player xp={player.xp} nick={player.nick}/>
+        {/if}
+     {/each}
     </header>
     <aside>
         <Chat />

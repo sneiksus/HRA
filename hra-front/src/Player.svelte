@@ -1,13 +1,15 @@
 <script>
     export let nomarg=0;
+    export let nick;
+    export let xp;
 </script>
 
 <div id="df" class={!nomarg ? 'yemarg' : 'nomarg'}>
     <div id="box">
         <img src="./static/ava.png" alt="ava">
     </div>
-    <h1>Player</h1>
-    <h2>500 XP</h2>    
+    <h1>{nick}</h1>
+    <h2>{xp} XP</h2>    
 </div>
 
 <style>

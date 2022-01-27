@@ -11,6 +11,8 @@ namespace hra_back.Models
         public LinkedList<Player> players { get; set; }
 
 
+
+
         public bool RemovePlayer(string id)
         {
             for (LinkedListNode<Player> node = players.First; node != null; node = node.Next)
@@ -35,6 +37,8 @@ namespace hra_back.Models
             }
             return false;
         }
+
+       
 
     }
 }
