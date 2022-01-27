@@ -1,10 +1,25 @@
+<script>
+    import Card from "./Card.svelte";
+
+    export let attack=null;
+    export let defend=null;
+
+    console.log(attack);
+</script>
+
 <div id="root">
     <div id="first">
-
+        {#if attack!=null}
+            
+        <Card xp={attack.points} type={attack.type} />
+        {/if}
     </div>
     <i>VS</i>
     <div id="second">
-
+        {#if defend!=null}
+            
+        <Card xp={defend.points} type={defend.type} />
+        {/if}
     </div>
 </div>
 

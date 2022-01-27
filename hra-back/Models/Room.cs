@@ -9,8 +9,10 @@ namespace hra_back.Models
     {
         public string Id { get; set; }
         public LinkedList<Player> players { get; set; }
+        public Card Attack { get; set; }
+        public Card Defend { get; set; }
 
-
+        public List<Card> roomDeck { get; set; }
 
 
         public bool RemovePlayer(string id)
@@ -25,17 +27,32 @@ namespace hra_back.Models
             }
             return false;
         }
-        public bool AddCards(string id, List<Card> c)
+
+        public Player GetPlayer(string id)
         {
             for (LinkedListNode<Player> node = players.First; node != null; node = node.Next)
             {
                 if (node.Value.Id == id)
                 {
-                    node.Value.Cards = c;
-                    return true;
+                    return node.Value;
                 }
             }
-            return false;
+            return null;
+        }
+        public void AddCards()
+        {
+            if(roomDeck.Count>0)
+             for (LinkedListNode<Player> node = players.First; node != null; node = node.Next)
+            {
+                
+                    System.Diagnostics.Debug.WriteLine(roomDeck.Count + " ca");
+                    node.Value.Cards = roomDeck.Skip(0).Take(4).ToList();
+                    roomDeck.RemoveRange(0, 4);
+                    System.Diagnostics.Debug.WriteLine(roomDeck.Count + " ac");
+                   
+                
+            }
+       
         }
 
        

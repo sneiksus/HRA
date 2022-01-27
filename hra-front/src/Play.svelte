@@ -6,23 +6,32 @@
     import Timer from "./Timer.svelte";
     import Info from "./Info.svelte"
     import { onMount } from 'svelte';
-    import {roomCode, HUB} from './signalr';
+    import {roomCode, HUB, ID} from './signalr';
     import { navigateTo } from "svelte-router-spa";
     import * as signalR from "@microsoft/signalr";
 
     let players=[];
     let cards=[];
+    let attack=null;
+    let defend=null;
+    let roomDeck=null;
        onMount(() => {
            $HUB.invoke('PlayInit', $roomCode);
        })
 
        $HUB.on("clientInit", function (d) {
-         console.log("clieninit");
+         console.log("clieninit "+$ID);
          players=d.players;
-         cards=d.players[0].cards;
+         for(var i = 0;i<d.players.length;i++)
+         if(d.players[i].id == $ID)
+         cards=d.players[i].cards;
+         roomDeck=d.roomDeck.length;
+         attack=d.attack;
+         defend=d.defend;
          console.log(d);
          
     });
+
     
 </script>
 
@@ -40,16 +49,16 @@
         <Chat />
     </aside>
     <section>
-        <Battlefield />
+        <Battlefield attack={attack} defend={defend}/>
     </section>
     <div>
         <Timer/>
-        <Info/>
+        <Info roomDeck={roomDeck}/>
     </div>
     <footer>
         {#each cards as card, i}
            {#if i == 0}
-           <Card nomarg="1" xp={card.points} type={card.type} />
+           <Card nomarg="1"  xp={card.points} type={card.type} />
            {:else}
            <Card xp={card.points} type={card.type} />
            {/if}

@@ -1,7 +1,7 @@
 <script>
     import { navigateTo } from "svelte-router-spa";
     import * as signalR from "@microsoft/signalr";
-    import {roomCode, HUB} from './signalr';
+    import {ID, roomCode, HUB} from './signalr';
     let codeConnection;
     let isCodeWrong = false;
     let isRoomFull = false;
@@ -10,6 +10,9 @@
         .build();
     HUB.set(hubConnection);
     console.log($HUB);
+    $HUB.on("getID", function (data){
+         ID.set(data);
+    });
    // localStorage.clear();
    $HUB.on("FilledRoom", function (data) {
         console.log("fiiled room");

@@ -28,7 +28,7 @@ namespace hra_back.Controllers
         [HttpGet("bon")]
         public string createRoom() {
             string id = generateRoomId();
-            Common.rooms.Add(new Room { Id = id, players = new LinkedList<Player>() });
+            Common.rooms.Add(new Room { Id = id, players = new LinkedList<Player>(),roomDeck = Common.cards });
             return id;
         }
         [HttpPost("con")]

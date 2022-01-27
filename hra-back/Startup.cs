@@ -33,7 +33,8 @@ namespace hra_back
                     .AllowAnyHeader()
 
                     .AllowCredentials()
-                    .SetIsOriginAllowed(hostName => true));
+                    .SetIsOriginAllowed(hostName =>
+                    true));
             });
         }
 

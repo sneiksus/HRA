@@ -1,4 +1,6 @@
 <script>
+    import {roomCode, HUB} from './signalr';
+
     export let nomarg=0;
     export let xp=-1;
     export let type="n";
@@ -13,9 +15,15 @@
     b = " thief";
     else
     b = " sabotage";
+
+
+    function moveCard(){
+        console.log(type)
+        $HUB.invoke("moveCard", type, xp, $roomCode);
+    }
 </script>
 
-<div id="card" class="{[a,b]}">
+<div id="card" on:click={moveCard} class="{[a,b]}">
     {#if type == 0}
     <img src="./static/Attack.png" alt="logo"/>
     {:else if type == 1}

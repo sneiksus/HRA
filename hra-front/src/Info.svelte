@@ -1,7 +1,12 @@
+<script>
+export let roomDeck=0;
+
+</script>
+
 <div>
     <h3>turn 23</h3>
     <img src="./static/Deck.png" alt="deck">
-    <p>25 cards remains</p>
+    <p>{roomDeck} cards remains</p>
 </div>
 
 <style>

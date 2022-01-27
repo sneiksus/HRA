@@ -28,3 +28,4 @@ import { writable } from "svelte/store";
 
 export const roomCode = writable('nula');
 export const HUB = writable('nula');
+export const ID = writable('nula');

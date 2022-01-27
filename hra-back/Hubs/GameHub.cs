@@ -12,7 +12,7 @@ namespace hra_back.Hubs
         public override async Task OnConnectedAsync()
         {
             System.Diagnostics.Debug.WriteLine(Context.ConnectionId + " connect");
-           // await Clients.Caller.SendAsync("getID", Context.ConnectionId);
+            await Clients.Caller.SendAsync("getID", Context.ConnectionId);
         }
         public override async Task OnDisconnectedAsync(Exception ex)
         {
@@ -40,6 +40,8 @@ namespace hra_back.Hubs
                     await Clients.Caller.SendAsync("FilledRoom");
                 Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = Context.ConnectionId, Nick = "Player"+ Common.rooms.First(x => x.Id == code.ToUpper()).players.Count.ToString(), Cards = new List<Card>(), XP = 500 });
                 await Groups.AddToGroupAsync(Context.ConnectionId, code);
+                if(Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 2)
+                  Common.rooms.Find(x => x.Id == code.ToUpper()).AddCards();
                 await Clients.Caller.SendAsync("GoInRoom");
                 await sendPlayersInRoom(Context.ConnectionId, Common.rooms.Find(x => x.Id == code.ToUpper()));
             }
@@ -84,15 +86,22 @@ namespace hra_back.Hubs
 
         public async Task PlayInit(string roomCode)
         {
-            Common.rooms.Find(x => x.Id == roomCode.ToUpper()).AddCards(Context.ConnectionId, Common.cards);
-            await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
-            Task.Run(() => Play(roomCode));
-        }
-
-
-        private void Play(string roomCode)
-        {
             
+            await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
+           // Task.Run(() => Play(roomCode));
         }
+
+        public async Task moveCard(int type, int xp, string roomCode)
+        {
+            System.Diagnostics.Debug.WriteLine(xp + " mvca" + type);
+            var card = Common.rooms.Find(x => x.Id == roomCode.ToUpper()).GetPlayer(Context.ConnectionId).Cards.Find(z => z.Points == xp && z.Type == (CardType)type);
+            Common.rooms.Find(x => x.Id == roomCode.ToUpper()).GetPlayer(Context.ConnectionId).Cards.Remove(card);
+            if (Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Attack == null)
+                Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Attack = card;
+            else
+                Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Defend = card;
+            await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
+        }
+        
     }
 }
