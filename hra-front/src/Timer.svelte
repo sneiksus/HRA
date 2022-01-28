@@ -1,5 +1,9 @@
+<script>
+    export let seconds=30;
+</script>
+
 <div>
-    <h1>25 sec.</h1>
+    <h1>{seconds} sec.</h1>
     <h2>Your turn</h2>
 </div>
 

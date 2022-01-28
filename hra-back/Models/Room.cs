@@ -11,8 +11,8 @@ namespace hra_back.Models
         public LinkedList<Player> players { get; set; }
         public Card Attack { get; set; }
         public Card Defend { get; set; }
-
         public List<Card> roomDeck { get; set; }
+        public Counter counter { get; set; }
 
 
         public bool RemovePlayer(string id)

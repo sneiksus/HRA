@@ -31,6 +31,12 @@ namespace hra_back.Hubs
               
         }
 
+        public static IHubContext<GameHub> GlobalContext { get; private set; }
+        public GameHub(IHubContext<GameHub> ctx)
+        {
+            GlobalContext = ctx;
+        }
+
         public async Task roomConnection(string code="0")
         {
             System.Diagnostics.Debug.WriteLine(Context.ConnectionId+" lobby");
@@ -88,7 +94,20 @@ namespace hra_back.Hubs
         {
             
             await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
-           // Task.Run(() => Play(roomCode));
+            Common.rooms.Find(x => x.Id == roomCode.ToUpper()).counter = new Counter(roomCode);
+
+        }
+
+        public async void Play(string roomCode)
+        {
+            
+            System.Threading.Thread.Sleep(500);
+            while (true)
+            {
+                await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
+                System.Threading.Thread.Sleep(3000);
+            }
+
         }
 
         public async Task moveCard(int type, int xp, string roomCode)
