@@ -21,7 +21,7 @@ namespace hra_back.Models
             seconds = 30;
             var timer1 = new Timer(_ => {
                 seconds--;
-                GameHub.GlobalContext.Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
+               GameHub.GlobalContext.Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
             },null, 0, 1000);
         }
     }

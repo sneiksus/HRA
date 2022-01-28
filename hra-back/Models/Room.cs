@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace hra_back.Models
@@ -13,8 +14,28 @@ namespace hra_back.Models
         public Card Defend { get; set; }
         public List<Card> roomDeck { get; set; }
         public Counter counter { get; set; }
+        public Player current { get; set; }
+        public Player next { get; set; }
 
-
+        public void Play()
+        {
+            // current = players.First;
+            /*while (true)
+            {
+              //  Thread.Sleep(3000);
+                if (current.Next != null)
+                    current = current.Next;
+                else
+                    current = current.List.First;
+            }*/
+            while (true)
+                for(int i = 0; i < players.Count; i++)
+            {
+                    Thread.Sleep(3000);
+                    current = players.ElementAt(i);
+                    next = players.ElementAt(i+1>=players.Count ? 0 : i+1);
+                }
+        }
         public bool RemovePlayer(string id)
         {
             for (LinkedListNode<Player> node = players.First; node != null; node = node.Next)

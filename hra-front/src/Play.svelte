@@ -16,6 +16,7 @@
     let defend=null;
     let roomDeck=null;
     let seconds = 30;
+    let yt="nil";
        onMount(() => {
            $HUB.invoke('PlayInit', $roomCode);
        })
@@ -30,6 +31,13 @@
          attack=d.attack;
          defend=d.defend;
          seconds = d.counter.seconds;
+         if(d.current.id == $ID)
+         yt="cur";
+         else if(d.next.id == $ID)
+         yt="nxt";
+         else
+         yt="nil";
+         console.log("crnt "+yt)
          console.log(d);
          
     });
@@ -54,7 +62,7 @@
         <Battlefield attack={attack} defend={defend}/>
     </section>
     <div>
-        <Timer seconds={seconds}/>
+        <Timer seconds={seconds} yt={yt}/>
         <Info roomDeck={roomDeck}/>
     </div>
     <footer>

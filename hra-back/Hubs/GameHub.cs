@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace hra_back.Hubs
@@ -95,18 +96,13 @@ namespace hra_back.Hubs
             
             await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
             Common.rooms.Find(x => x.Id == roomCode.ToUpper()).counter = new Counter(roomCode);
-
+            Task.Run(() => Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Play());
         }
 
         public async void Play(string roomCode)
         {
+           
             
-            System.Threading.Thread.Sleep(500);
-            while (true)
-            {
-                await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
-                System.Threading.Thread.Sleep(3000);
-            }
 
         }
 

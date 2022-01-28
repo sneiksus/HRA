@@ -1,10 +1,17 @@
 <script>
     export let seconds=30;
+    export let yt="nil";
 </script>
 
 <div>
     <h1>{seconds} sec.</h1>
+    {#if yt == 'cur'}
     <h2>Your turn</h2>
+     {:else if yt == 'nxt'}   
+     <h2>Your attacked</h2>
+     {:else}
+     <h2>wait</h2>
+    {/if}
 </div>
 
 <style>
