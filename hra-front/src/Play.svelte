@@ -23,6 +23,7 @@
 
        $HUB.on("clientInit", function (d) {
          console.log("clieninit "+$ID);
+          cards=[];
          players=d.players;
          for(var i = 0;i<d.players.length;i++)
          if(d.players[i].id == $ID)

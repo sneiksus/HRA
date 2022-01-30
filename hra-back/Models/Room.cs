@@ -56,14 +56,38 @@ namespace hra_back.Models
 
         public void fight()
         {
-            if(Attack!=null&&Defend!=null&&Attack.Type == Defend.Type)
+            int res;
+            if (Attack!=null&&Defend!=null&&Attack.Type == Defend.Type)
             {
                 switch (Attack.Type)
                 {
                     case CardType.Attack:
-                        int res = Attack.Points - Defend.Points;
+                         res = Attack.Points - Defend.Points;
                         if(res >0)
                             players.ElementAt(i + 1 >= players.Count ? 0 : i + 1).XP-=res;
+                        break;
+                    case CardType.Thief:
+                         res = Attack.Points - Defend.Points;
+                        if (res > 0)
+                        {
+                            players.ElementAt(i + 1 >= players.Count ? 0 : i + 1).XP -= res;
+                            players.ElementAt(i).XP += res;
+                        }
+                        break;
+                    case CardType.Sabotage:
+                 
+                        if (next.Cards.Any(x=>x.Type == CardType.Sabotage))
+                        {
+                            next.Cards.Remove(next.Cards.First(x => x.Type == CardType.Sabotage));
+                        }
+                        else if(next.Cards.Any(x => x.Type == CardType.Resources))
+                        {
+                            next.Cards.Remove(next.Cards.First(x => x.Type == CardType.Resources));
+                        }
+                        else
+                        {
+                            next.Cards.Remove(next.Cards.First());
+                        }
                         break;
                 }
                 Attack = Defend = null;

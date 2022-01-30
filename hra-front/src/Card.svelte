@@ -23,7 +23,7 @@
     }
 </script>
 
-<div id="card" on:click={moveCard} class="{[a,b]}">
+<!-- <div id="card" on:click={moveCard} class="{[a,b]}">
     {#if type == 0}
     <img src="./static/Attack.png" alt="logo"/>
     {:else if type == 1}
@@ -35,7 +35,34 @@
     {/if}
     <h1>{type}</h1>
     <p>{xp}</p>
+</div> -->
+
+
+{#if type == 0}
+<div id="card" on:click={moveCard} class="{a} attack">
+    <img src="./static/Attack.png" alt="logo"/>
+    <h1>{type}</h1>
+    <p>{xp}</p>
 </div>
+    {:else if type == 1}
+    <div id="card" on:click={moveCard} class="{a} resources">
+        <img src="./static/Resources.png" alt="logo"/>
+        <h1>{type}</h1>
+        <p>{xp}</p>
+    </div>
+    {:else if type == 2}
+    <div id="card" on:click={moveCard} class="{a} thief">
+        <img src="./static/Thief.png" alt="logo"/>
+        <h1>{type}</h1>
+        <p>{xp}</p>
+    </div>
+    {:else if type == 3}
+    <div id="card" on:click={moveCard} class="{a} sabotage">
+        <img src="./static/Sabotage.png" alt="logo"/>
+        <h1>{type}</h1>
+        <p>{xp}</p>
+    </div>
+    {/if}
 
 <style>
     div {
