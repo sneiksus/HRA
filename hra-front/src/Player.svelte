@@ -2,10 +2,11 @@
     export let nomarg=0;
     export let nick;
     export let xp;
+    export let isMe;
 </script>
 
 <div id="df" class={!nomarg ? 'yemarg' : 'nomarg'}>
-    <div id="box">
+    <div id="box" class="{isMe == true ? 'me': 'nme'}">
         <img src="./static/ava.png" alt="ava">
     </div>
     <h1>{nick}</h1>
@@ -25,9 +26,16 @@
         width: 2em;
         height: 2em;
         background: #23272a;
-        border: 5px solid #5865f2;
+        
         border-radius: 10px;
        padding: 0.5em;
+    }
+
+    .me{
+        border: 5px solid #3ccc18;
+    }
+    .nme{
+        border: 5px solid #5865f2;
     }
     img{
         width: 1.75em;

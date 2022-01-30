@@ -8,7 +8,7 @@
     {#if yt == 'cur'}
     <h2>Your turn</h2>
      {:else if yt == 'nxt'}   
-     <h2>Your attacked</h2>
+     <h2>You're attacked</h2>
      {:else}
      <h2>wait</h2>
     {/if}

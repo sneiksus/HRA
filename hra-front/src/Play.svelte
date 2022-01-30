@@ -20,10 +20,15 @@
        onMount(() => {
            $HUB.invoke('PlayInit', $roomCode);
        })
-
        $HUB.on("clientInit", function (d) {
          console.log("clieninit "+$ID);
           cards=[];
+          for(var i = 0;i<d.players.length;i++)
+          if(d.players[i].id == $ID)
+          if(d.players[i].isLoser == true)
+          alert('Loser!');
+          else if(d.players[i].isWiner == true)
+          alert('Winner!');
          players=d.players;
          for(var i = 0;i<d.players.length;i++)
          if(d.players[i].id == $ID)
@@ -50,9 +55,9 @@
     <header>
         {#each players as player, i}
         {#if i == 0}
-        <Player nomarg="1" xp={player.xp} nick={player.nick}/>
+        <Player nomarg="1" xp={player.xp} isMe={player.id == $ID ? true : false} nick={player.nick}/>
         {:else}
-        <Player xp={player.xp} nick={player.nick}/>
+        <Player xp={player.xp} isMe={player.id == $ID ? true : false} nick={player.nick}/>
         {/if}
      {/each}
     </header>

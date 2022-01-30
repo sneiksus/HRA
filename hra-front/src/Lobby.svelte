@@ -15,8 +15,13 @@
          playersInRoom = data;
          console.log(data[0]);
          if(playersInRoom.length>=2)
-           navigateTo('play');
-         
+         var go = true;
+         for(var i=0;i<playersInRoom.length;i++)
+         if(playersInRoom[i].isReady == false)
+              go = false
+            console.log(go + ' go');
+            if(go)
+            navigateTo('play');
     });
     console.log('constructor '+$roomCode);
     let nick ='';

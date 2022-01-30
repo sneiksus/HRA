@@ -45,7 +45,7 @@ namespace hra_back.Hubs
             {
                 if (Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
                     await Clients.Caller.SendAsync("FilledRoom");
-                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = Context.ConnectionId, Nick = "Player"+ Common.rooms.First(x => x.Id == code.ToUpper()).players.Count.ToString(), Cards = new List<Card>(), XP = 500 });
+                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = Context.ConnectionId, Nick = "Player"+ Common.rooms.First(x => x.Id == code.ToUpper()).players.Count.ToString(), Cards = new List<Card>(), XP = 500, isLoser = false, isWiner = false });
                 await Groups.AddToGroupAsync(Context.ConnectionId, code);
                 if(Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 2)
                   Common.rooms.Find(x => x.Id == code.ToUpper()).AddCards();
@@ -86,7 +86,7 @@ namespace hra_back.Hubs
                 }
                 it = next;
             }
-            await Clients.All.SendAsync("roomPlayers", res.players.ToArray());
+            await Clients.All.SendAsync("roomPlayers", res.players.ToList());
         }
 
         //-------------------------------GAME_CONTROL---------------------------

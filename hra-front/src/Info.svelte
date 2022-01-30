@@ -4,7 +4,7 @@ export let roomDeck=0;
 </script>
 
 <div>
-    <h3>turn 23</h3>
+    <!-- <h3>turn 23</h3> -->
     <img src="./static/Deck.png" alt="deck">
     <p>{roomDeck} cards remains</p>
 </div>

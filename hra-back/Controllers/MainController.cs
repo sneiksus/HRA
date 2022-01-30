@@ -38,7 +38,7 @@ namespace hra_back.Controllers
             {
                 if(Common.rooms.Find(x => x.Id == code.ToUpper()).players.Count >= 4)
                   return BadRequest();
-                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = id, Nick = nickname, Cards = new List<Card>(), XP = 500 });
+                Common.rooms.First(x => x.Id == code.ToUpper()).players.AddLast(new Player { Id = id, Nick = nickname, Cards = new List<Card>(), XP = 500, isLoser=false, isWiner=false });
                 return Ok();
             }
             else

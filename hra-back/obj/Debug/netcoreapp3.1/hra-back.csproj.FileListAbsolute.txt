@@ -17,4 +17,3 @@ D:\projects\HRA\hra-back\obj\Debug\netcoreapp3.1\hra-back.RazorTargetAssemblyInf
 D:\projects\HRA\hra-back\obj\Debug\netcoreapp3.1\hra-back.dll
 D:\projects\HRA\hra-back\obj\Debug\netcoreapp3.1\hra-back.pdb
 D:\projects\HRA\hra-back\obj\Debug\netcoreapp3.1\hra-back.genruntimeconfig.cache
-D:\projects\HRA\hra-back\obj\Debug\netcoreapp3.1\hra-back.csprojAssemblyReference.cache
