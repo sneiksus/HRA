@@ -15,8 +15,8 @@ namespace hra_back.Models
             new Card { Points = 0, Type = CardType.Sabotage },
             new Card { Points = 100, Type = CardType.Attack },
             new Card { Points = 50, Type = CardType.Thief },
-            new Card { Points = 100, Type = CardType.Attack },
-            new Card { Points = 100, Type = CardType.Attack },
+            new Card { Points = 50, Type = CardType.Attack },
+            new Card { Points = 150, Type = CardType.Attack },
             new Card { Points = 200, Type = CardType.Attack }
         };
     }

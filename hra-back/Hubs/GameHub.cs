@@ -93,10 +93,17 @@ namespace hra_back.Hubs
 
         public async Task PlayInit(string roomCode)
         {
-            
+            System.Diagnostics.Debug.WriteLine("pinit");
             await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
-            Common.rooms.Find(x => x.Id == roomCode.ToUpper()).counter = new Counter(roomCode);
-            Task.Run(() => Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Play());
+            if (Common.rooms.Find(x => x.Id == roomCode.ToUpper()).gameStarted)
+                return;
+            else
+            {
+                Common.rooms.Find(x => x.Id == roomCode.ToUpper()).gameStarted = true;
+                Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Turn();
+
+            }
+           // Task.Run(() => Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Play());
         }
 
         public async void Play(string roomCode)
@@ -116,6 +123,8 @@ namespace hra_back.Hubs
             else
                 Common.rooms.Find(x => x.Id == roomCode.ToUpper()).Defend = card;
             await Clients.Group(roomCode).SendAsync("clientInit", Common.rooms.Find(x => x.Id == roomCode.ToUpper()));
+            Common.rooms.Find(x => x.Id == roomCode.ToUpper()).fight();
+
         }
         
     }
